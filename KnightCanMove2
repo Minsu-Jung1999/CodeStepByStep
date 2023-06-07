@@ -1,0 +1,49 @@
+bool isValidSquare(int r, int c, int numRows, int numCols) {
+    return r >= 0 && r < numRows && c >= 0 && c < numCols;
+}
+
+bool knightCanMove(std::vector<std::vector<std::string>>& board, int r1, int c1, int r2, int c2) {
+    int numRows = board.size();
+    int numCols = board[0].size();
+    
+    // Check if the starting square contains a knight
+    if (isValidSquare(r1, c1, numRows, numCols) && board[r1][c1] == "knight") {
+        // Check if the destination square is empty and within bounds
+        if (isValidSquare(r2, c2, numRows, numCols) && board[r2][c2] == "") {
+            // Check all possible knight moves
+            int dr[] = {-2, -1, 1, 2, 2, 1, -1, -2};
+            int dc[] = {1, 2, 2, 1, -1, -2, -2, -1};
+            
+            for (int i = 0; i < 8; i++) {
+                int nr = r1 + dr[i];
+                int nc = c1 + dc[i];
+                
+                // Check if the move is valid and leads to the destination square
+                if (nr == r2 && nc == c2) {
+                    return true;
+                }
+            }
+        }
+    }
+    
+    return false;
+}
+
+int main() {
+    // Example usage
+    std::vector<std::vector<std::string>> board = {
+        {"", "", "", "", "king", "", "", ""},
+        {"", "", "knight", "", "", "", "", ""},
+        {"", "", "", "", "", "", "", ""},
+        {"", "rook", "", "", "", "", "", ""},
+        {"", "", "", "", "", "", "", ""},
+        {"", "", "", "", "", "", "", ""},
+        {"", "", "", "", "", "", "", ""},
+        {"", "", "", "", "", "", "", ""}
+    };
+    
+    bool canMove = knightCanMove(board, 1, 2, 2, 4);
+    std::cout << std::boolalpha << canMove << std::endl;  // Output: true
+    
+    return 0;
+}
